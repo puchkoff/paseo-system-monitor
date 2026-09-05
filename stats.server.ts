@@ -4,6 +4,7 @@ import * as os from "node:os";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
+const EXEC_OPTIONS = { maxBuffer: 16 * 1024 * 1024 };
 
 function cpuSnapshot() {
   return os.cpus().map((cpu) => {
@@ -73,7 +74,7 @@ async function readSwapUsage() {
 }
 
 async function readDiskUsage(diskPath: string) {
-  const { stdout } = await execFileAsync("df", ["-kP", diskPath]);
+  const { stdout } = await execFileAsync("df", ["-kP", diskPath], EXEC_OPTIONS);
   const line = stdout.trim().split("\n").at(-1) ?? "";
   const columns = line.split(/\s+/);
   const totalKb = Number(columns[1]);
@@ -88,12 +89,11 @@ const TOP_PROCESS_LINE = /^\s*(\d+)\s+(.+?)\s+([\d.]+)\s+([\d.]+)\s*$/;
 
 async function readTopProcesses(limit: number) {
   if (os.platform() === "win32") return [];
-  const { stdout } = await execFileAsync("ps", [
-    "-eo",
-    "pid,comm,pcpu,pmem",
-    "--no-headers",
-    "--sort=-pcpu",
-  ]);
+  const { stdout } = await execFileAsync(
+    "ps",
+    ["-eo", "pid,comm,pcpu,pmem", "--no-headers", "--sort=-pcpu"],
+    EXEC_OPTIONS,
+  );
   return stdout
     .split("\n")
     .slice(0, limit)
