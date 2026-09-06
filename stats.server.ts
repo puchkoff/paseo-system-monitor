@@ -85,20 +85,21 @@ async function readDiskUsage(diskPath: string) {
   };
 }
 
-const TOP_PROCESS_LINE = /^\s*(\d+)\s+(.+?)\s+([\d.]+)\s+([\d.]+)\s*$/;
+const TOP_PROCESS_LINE = /^\s*(\d+)\s+(.+?)\s+([\d.]+)\s+([\d.]+)\s+(\S+)\s*$/;
 
 async function readTopProcesses(limit: number) {
   if (os.platform() === "win32") return [];
   const { stdout } = await execFileAsync(
     "ps",
-    ["-eo", "pid,comm,pcpu,pmem", "--no-headers", "--sort=-pcpu"],
+    ["-eo", "pid,comm,pcpu,pmem,stat", "--no-headers", "--sort=-pcpu"],
     EXEC_OPTIONS,
   );
   return stdout
     .split("\n")
-    .slice(0, limit)
     .map((line) => line.match(TOP_PROCESS_LINE))
     .filter((match): match is RegExpMatchArray => match !== null)
+    .filter((match) => !match[5].startsWith("Z"))
+    .slice(0, limit)
     .map((match) => ({
       pid: Number(match[1]),
       name: match[2],
