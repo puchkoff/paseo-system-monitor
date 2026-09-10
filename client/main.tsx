@@ -1,9 +1,10 @@
-import type { PluginSurfaceProps, PluginTheme } from "@getpaseo/plugin";
-import { useRpc } from "@getpaseo/plugin";
+import type { PluginTheme } from "@getpaseo/plugin";
+import type { PluginSurfaceProps } from "@getpaseo/plugin/client";
+import { useRpc } from "@getpaseo/plugin/client";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
-import { getSystemStats } from "./stats.shared";
+import { getSystemStats } from "../shared/stats";
 
 const HISTORY_LENGTH = 24;
 
