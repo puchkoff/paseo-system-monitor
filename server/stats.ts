@@ -52,10 +52,15 @@ async function readCpuAndNetwork(intervalMs: number) {
   };
 }
 
+// Docker creates one virtual bridge/veth per compose network — on a host running
+// many stacks that's dozens of entries. Keep only the real NIC and Tailscale.
+const VIRTUAL_IFACE_PREFIXES = ["br-", "docker", "veth"];
+
 function readNetworkInterfaces() {
   const interfaces = os.networkInterfaces();
   const result: { name: string; address: string }[] = [];
   for (const [name, addrs] of Object.entries(interfaces)) {
+    if (VIRTUAL_IFACE_PREFIXES.some((prefix) => name.startsWith(prefix))) continue;
     for (const addr of addrs ?? []) {
       if (!addr.internal && addr.family === "IPv4") {
         result.push({ name, address: addr.address });
