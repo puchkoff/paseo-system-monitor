@@ -28,5 +28,12 @@ export const getSystemStats = defineRpc({
     networkInterfaces: z.array(z.object({ name: z.string(), address: z.string() })),
     swapUsedBytes: z.number(),
     swapTotalBytes: z.number(),
+    dockerDiskUsage: z.array(
+      z.object({
+        type: z.string(),
+        size: z.string(),
+        reclaimable: z.string(),
+      }),
+    ),
   }),
 });

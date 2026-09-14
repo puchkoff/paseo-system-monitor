@@ -268,6 +268,68 @@ function NetworkInterfaceList({
   );
 }
 
+function DockerDiskUsage({
+  theme,
+  rows,
+}: {
+  theme: PluginTheme;
+  rows: { type: string; size: string; reclaimable: string }[];
+}) {
+  if (rows.length === 0) return null;
+  return (
+    <View style={{ gap: 4 }}>
+      <Text style={{ color: theme.colors.foreground, fontWeight: "600", fontSize: 13 }}>
+        Docker disk usage
+      </Text>
+      <View
+        style={{
+          borderRadius: 10,
+          backgroundColor: theme.colors.surface1,
+          overflow: "hidden",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            paddingVertical: 6,
+            paddingHorizontal: 12,
+            borderBottomWidth: 1,
+            borderBottomColor: theme.colors.border,
+          }}
+        >
+          <Text style={{ flex: 2, color: theme.colors.foregroundMuted, fontSize: 11 }}>TYPE</Text>
+          <Text style={{ flex: 1, color: theme.colors.foregroundMuted, fontSize: 11, textAlign: "right" }}>
+            SIZE
+          </Text>
+          <Text style={{ flex: 1, color: theme.colors.foregroundMuted, fontSize: 11, textAlign: "right" }}>
+            RECLAIMABLE
+          </Text>
+        </View>
+        {rows.map((row, index) => (
+          <View
+            key={row.type}
+            style={{
+              flexDirection: "row",
+              paddingVertical: 6,
+              paddingHorizontal: 12,
+              borderTopWidth: index === 0 ? 0 : 1,
+              borderTopColor: theme.colors.border,
+            }}
+          >
+            <Text style={{ flex: 2, color: theme.colors.foreground, fontSize: 12 }}>{row.type}</Text>
+            <Text style={{ flex: 1, color: theme.colors.foreground, fontSize: 12, textAlign: "right" }}>
+              {row.size}
+            </Text>
+            <Text style={{ flex: 1, color: theme.colors.foregroundMuted, fontSize: 12, textAlign: "right" }}>
+              {row.reclaimable}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
 function ProcessTable({
   theme,
   processes,
@@ -440,6 +502,7 @@ export function MainSurface({ theme, layout }: PluginSurfaceProps) {
           </View>
           <ProcessTable theme={theme} processes={data.topProcesses} />
           <NetworkInterfaceList theme={theme} interfaces={data.networkInterfaces} />
+          <DockerDiskUsage theme={theme} rows={data.dockerDiskUsage} />
           <Text style={styles.hint}>Refreshes every 2s.</Text>
         </>
       )}
