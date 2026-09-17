@@ -90,19 +90,27 @@ async function readDiskUsage(diskPath: string) {
   };
 }
 
-async function readDockerDiskUsage() {
+// `docker system df` scans every image/container/volume — 10s+ on hosts with hundreds
+// of them. Refresh it on its own slow timer instead of blocking the 2s stats poll.
+const DOCKER_DISK_REFRESH_MS = 30_000;
+let dockerDiskUsageCache: { type: string; size: string; reclaimable: string }[] = [];
+
+async function refreshDockerDiskUsage() {
   try {
     const { stdout } = await execFileAsync("docker", ["system", "df", "--format", "json"], EXEC_OPTIONS);
-    return stdout
+    dockerDiskUsageCache = stdout
       .trim()
       .split("\n")
       .filter(Boolean)
       .map((line) => JSON.parse(line))
       .map((row) => ({ type: row.Type, size: row.Size, reclaimable: row.Reclaimable }));
   } catch {
-    return [];
+    dockerDiskUsageCache = [];
   }
 }
+
+void refreshDockerDiskUsage();
+setInterval(refreshDockerDiskUsage, DOCKER_DISK_REFRESH_MS);
 
 const TOP_PROCESS_LINE = /^\s*(\d+)\s+(.+?)\s+([\d.]+)\s+([\d.]+)\s+(\S+)\s*$/;
 
@@ -129,14 +137,12 @@ async function readTopProcesses(limit: number) {
 
 export async function handleGetSystemStats() {
   const diskPath = os.platform() === "win32" ? "C:\\" : "/";
-  const [{ cpuPercent, rxBytesPerSec, txBytesPerSec }, disk, topProcesses, swap, dockerDiskUsage] =
-    await Promise.all([
-      readCpuAndNetwork(200),
-      readDiskUsage(diskPath),
-      readTopProcesses(8),
-      readSwapUsage(),
-      readDockerDiskUsage(),
-    ]);
+  const [{ cpuPercent, rxBytesPerSec, txBytesPerSec }, disk, topProcesses, swap] = await Promise.all([
+    readCpuAndNetwork(200),
+    readDiskUsage(diskPath),
+    readTopProcesses(8),
+    readSwapUsage(),
+  ]);
   const [loadAvg1, loadAvg5, loadAvg15] = os.loadavg();
   return {
     cpuPercent,
@@ -155,6 +161,6 @@ export async function handleGetSystemStats() {
     networkInterfaces: readNetworkInterfaces(),
     swapUsedBytes: swap.swapUsedBytes,
     swapTotalBytes: swap.swapTotalBytes,
-    dockerDiskUsage,
+    dockerDiskUsage: dockerDiskUsageCache,
   };
 }
