@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbf7ff"/>
+      <stop offset="0.55" stop-color="#f3f6ff"/>
+      <stop offset="1" stop-color="#fff6ec"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#c4b5fd" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#c4b5fd" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fdba74" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#fdba74" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#db2777"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffbeb"/>
+      <stop offset="1" stop-color="#fef3c7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#312e81" flood-opacity="0.16"/>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#b45309" flood-opacity="0.18"/>
+    </filter>
+    <symbol id="sparkles" viewBox="0 0 24 24">
+      <path d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9z"/>
+      <path d="M19 15l.9 2.1 2.1.9-2.1.9L19 21l-.9-2.1-2.1-.9 2.1-.9z"/>
+    </symbol>
+  </defs>
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <circle cx="1060" cy="120" r="300" fill="url(#glowA)"/>
+  <circle cx="880" cy="600" r="260" fill="url(#glowB)"/>
+  <circle cx="90" cy="610" r="200" fill="url(#glowA)" opacity="0.6"/>
+  <g transform="translate(80 150)">
+    <rect x="0" y="0" width="196" height="36" rx="18" fill="#ede9fe"/>
+    <use href="#sparkles" x="14" y="8" width="20" height="20" fill="#7c3aed"/>
+    <text x="42" y="24" font-size="16" font-weight="600" fill="#6d28d9">Paseo plugin</text>
+    <text x="0" y="104" font-size="64" fill="#1e1b4b" font-weight="800" text-anchor="start" letter-spacing="-1.5">System</text>
+    <text x="0" y="176" font-size="64" fill="url(#brand)" font-weight="800" text-anchor="start" letter-spacing="-1.5">monitor</text>
+    <text x="0" y="232" font-size="22" fill="#4338ca" font-weight="400" text-anchor="start" opacity="0.85">Live load of the machine running the daemon.</text>
+    <circle cx="9" cy="281" r="5" fill="#f59e0b"/><text x="26" y="288" font-size="19" fill="#3f3f6e" font-weight="400" text-anchor="start" >CPU, memory, swap and disk</text><circle cx="9" cy="319" r="5" fill="#f59e0b"/><text x="26" y="326" font-size="19" fill="#3f3f6e" font-weight="400" text-anchor="start" >Network throughput and top processes</text><circle cx="9" cy="357" r="5" fill="#f59e0b"/><text x="26" y="364" font-size="19" fill="#3f3f6e" font-weight="400" text-anchor="start" >Docker disk usage</text>
+  </g>
+  <g transform="translate(680 70)" filter="url(#shadow)"><rect width="520" height="508" rx="28" fill="#ffffff"/></g>
+  <g transform="translate(680 70)">
+    <circle cx="36" cy="38" r="6" fill="#fca5a5"/><circle cx="56" cy="38" r="6" fill="#fde68a"/><circle cx="76" cy="38" r="6" fill="#a7f3d0"/>
+    <text x="260" y="44" font-size="15" fill="#6b7280" font-weight="600" text-anchor="middle" >System monitor</text>
+    <line x1="0" y1="68" x2="520" y2="68" stroke="#eef0f6"/>
+    <rect x="24" y="88" width="230" height="92" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="40" y="114" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >CPU</text>
+    <text x="40" y="144" font-size="22" fill="#111827" font-weight="700" text-anchor="start" >37%</text>
+    <rect x="40" y="158" width="198" height="8" rx="4.0" fill="#eef0f6"/><rect x="40" y="158" width="73" height="8" rx="4.0" fill="#059669"/>
+    <rect x="266" y="88" width="230" height="92" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="282" y="114" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >Memory</text>
+    <text x="282" y="144" font-size="18" fill="#111827" font-weight="700" text-anchor="start" >12.4 / 31 GB</text>
+    <rect x="282" y="158" width="198" height="8" rx="4.0" fill="#eef0f6"/><rect x="282" y="158" width="79" height="8" rx="4.0" fill="#2563eb"/>
+    <rect x="24" y="192" width="230" height="92" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="40" y="218" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >Disk /</text>
+    <text x="40" y="248" font-size="18" fill="#111827" font-weight="700" text-anchor="start" >212 / 460 GB</text>
+    <rect x="40" y="262" width="198" height="8" rx="4.0" fill="#eef0f6"/><rect x="40" y="262" width="91" height="8" rx="4.0" fill="#d97706"/>
+    <rect x="266" y="192" width="230" height="92" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="282" y="218" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >Swap</text>
+    <text x="282" y="248" font-size="18" fill="#111827" font-weight="700" text-anchor="start" >0.3 / 8 GB</text>
+    <rect x="282" y="262" width="198" height="8" rx="4.0" fill="#eef0f6"/><rect x="282" y="262" width="8" height="8" rx="4.0" fill="#059669"/>
+    <rect x="24" y="304" width="472" height="68" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="40" y="328" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >Network</text>
+    <text x="40" y="356" font-size="18" fill="#059669" font-weight="700" text-anchor="start" >↓ 4.2 MB/s</text>
+    <text x="200" y="356" font-size="18" fill="#2563eb" font-weight="700" text-anchor="start" >↑ 0.6 MB/s</text>
+    <text x="472" y="328" font-size="12" fill="#6b7280" font-weight="400" text-anchor="end" >load 1.8  1.4  1.1</text>
+    <rect x="24" y="384" width="472" height="106" rx="12" fill="#ffffff" stroke="#e5e7f0"/>
+    <text x="40" y="408" font-size="12" fill="#6b7280" font-weight="600" text-anchor="start" >Top processes</text>
+    <text x="40" y="432" font-size="14" fill="#374151" font-weight="500" text-anchor="start" >node</text>
+    <rect x="200" y="423" width="220" height="8" rx="4.0" fill="#eef0f6"/><rect x="200" y="423" width="157" height="8" rx="4.0" fill="#a78bfa"/>
+    <text x="472" y="432" font-size="13" fill="#6b7280" font-weight="400" text-anchor="end" >21.4%</text>
+    <text x="40" y="454" font-size="14" fill="#374151" font-weight="500" text-anchor="start" >claude</text>
+    <rect x="200" y="445" width="220" height="8" rx="4.0" fill="#eef0f6"/><rect x="200" y="445" width="72" height="8" rx="4.0" fill="#a78bfa"/>
+    <text x="472" y="454" font-size="13" fill="#6b7280" font-weight="400" text-anchor="end" >9.8%</text>
+    <text x="40" y="476" font-size="14" fill="#374151" font-weight="500" text-anchor="start" >postgres</text>
+    <rect x="200" y="467" width="220" height="8" rx="4.0" fill="#eef0f6"/><rect x="200" y="467" width="23" height="8" rx="4.0" fill="#a78bfa"/>
+    <text x="472" y="476" font-size="13" fill="#6b7280" font-weight="400" text-anchor="end" >3.1%</text>
+  </g>
+</svg>
