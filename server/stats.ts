@@ -94,10 +94,18 @@ async function readDiskUsage(diskPath: string) {
 // of them. Refresh it on its own slow timer instead of blocking the 2s stats poll.
 const DOCKER_DISK_REFRESH_MS = 30_000;
 let dockerDiskUsageCache: { type: string; size: string; reclaimable: string }[] = [];
+// Without this guard a df slower than the interval piles up — 1000+ concurrent dfs swapped the host to death.
+let dockerDiskUsageInFlight = false;
 
 async function refreshDockerDiskUsage() {
+  if (dockerDiskUsageInFlight) return;
+  dockerDiskUsageInFlight = true;
   try {
-    const { stdout } = await execFileAsync("docker", ["system", "df", "--format", "json"], EXEC_OPTIONS);
+    const { stdout } = await execFileAsync("docker", ["system", "df", "--format", "json"], {
+      ...EXEC_OPTIONS,
+      timeout: 120_000,
+      killSignal: "SIGKILL",
+    });
     dockerDiskUsageCache = stdout
       .trim()
       .split("\n")
@@ -106,6 +114,8 @@ async function refreshDockerDiskUsage() {
       .map((row) => ({ type: row.Type, size: row.Size, reclaimable: row.Reclaimable }));
   } catch {
     dockerDiskUsageCache = [];
+  } finally {
+    dockerDiskUsageInFlight = false;
   }
 }
 
